@@ -5,10 +5,6 @@ var socket = io();
 socket.on("connect",function() {
     console.log("Connected to Server..");
 
-    socket.emit("createEmail",{
-        to : "harshith@gmail.com",
-        text : "Hiee Buddy !!!"
-    });
     socket.emit("createMessage",{
         to : "harshith",
         text : "Hello Buddi baabu !!"
@@ -16,9 +12,6 @@ socket.on("connect",function() {
 });
 socket.on("disconnect",function() {
     console.log("Disconnected from the Server..");
-});
-socket.on("newEmail",function(newEmail) {
-    console.log("New Email..",newEmail);
 });
 socket.on("newMessage",function(newMessage) {
     console.log("New Message..",newMessage);

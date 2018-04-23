@@ -13,22 +13,18 @@ app.use(express.static(publicPath));
 io.on("connection",(socket)=>{
     console.log("New user connected");
 
-    socket.emit("newEmail",{
-        from : "ram@gmail.com",
-        text : "Sample Text Message..",
-        createdAt : new Date()
-    });
-    socket.emit("newMessage",{
-        from : "Harshith",
-        text : "Hiee Banda..",
-        createdAt : new Date()
-    });
-
-    socket.on("createEmail",(createdEmail)=>{
-        console.log("Created Email:",createdEmail);
-    });
+    // socket.emit("newMessage",{          //single connection & possible for multiple tabs
+    //     from : "Harshith",
+    //     text : "Hiee Banda..",
+    //     createdAt : new Date()
+    // });
     socket.on("createMessage",(createdMessage)=>{
         console.log("Created Message:",createdMessage);
+        io.emit("newMessage",{          //Multiple connections
+            to : createdMessage.to,
+            text : createdMessage.text,
+            createdAt : new Date().getTime()
+        });
     });
 
     socket.on("disconnect",()=>{
