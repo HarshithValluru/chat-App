@@ -15,13 +15,6 @@ socket.on("newMessage",function(newMessage) {
     jQuery("#messages").append(li);
 });
 
-// socket.emit("createMessage",{
-//     from : "Ram",
-//     text : "Hello ALL.."
-// }, function(data) {
-//     console.log("Got it..",data);
-// });
-
 jQuery("#message-form").on("submit", function(e) {
     e.preventDefault();
     socket.emit("createMessage",{
@@ -29,5 +22,16 @@ jQuery("#message-form").on("submit", function(e) {
         text : jQuery("[name=message]").val()
     }, function() {
         console.log("Got it from server..");
+    });
+});
+
+var locButton = jQuery("#send-location");
+locButton.on("click",function() {
+    if(!navigator.geolocation)
+        return alert("Geolocation is not supported by your browser..")
+    navigator.geolocation.getCurrentPosition(function(position){
+    console.log(position);
+    }, function() {
+        alert("Unable to fetch location..");
     });
 });
