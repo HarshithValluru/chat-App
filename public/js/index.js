@@ -6,7 +6,7 @@ socket.on("connect",function() {
     console.log("Connected to Server..");
 
     // socket.emit("createMessage",{
-    //     to : "harshith",
+    //     from : "harshith",
     //     text : "Hello Buddi baabu !!"
     // });
 });
