@@ -1,13 +1,31 @@
-var socket = io();
-
 //Since Arrow functions may not wrk properly in browsers other than Chrome i.e: Client side.
 //They can be used at server side.
+var socket = io();
+
+function scrollToBottom() {
+    var messages = jQuery("#messages");
+    var newMessage = messages.children("li:last-child");
+    var clientHeight = messages.prop("clientHeight");
+    console.log("clientHeight==",clientHeight);
+    var scrollTop = messages.prop("scrollTop");
+    var scrollHeight = messages.prop("scrollHeight");
+    var newMessageHeight = newMessage.innerHeight();
+    var lastMessageHeight = newMessage.prev().innerHeight();
+    console.log("lastMessageHeight==",lastMessageHeight);
+    console.log("Total Height==",(clientHeight + scrollTop + newMessageHeight + lastMessageHeight) );
+    console.log("scrollHeight==",scrollHeight);
+    if(clientHeight + scrollTop + newMessageHeight + lastMessageHeight  >= scrollHeight)
+        messages.scrollTop(scrollHeight);
+};
+
 socket.on("connect",function() {
     console.log("Connected to Server..");
 });
+
 socket.on("disconnect",function() {
     console.log("Disconnected from the Server..");
 });
+
 socket.on("newMessage",function(newMessage) {
     var formattedTime = moment(newMessage.createdAt).format("h:mm a");
     var template = jQuery("#message_template").html();
@@ -17,7 +35,9 @@ socket.on("newMessage",function(newMessage) {
         createdAt : formattedTime
     });
     jQuery("#messages").append(html);
+    scrollToBottom();
 });
+
 socket.on("newLocationMessage",function(newLocationMessage) {
     var formattedTime = moment(newLocationMessage.createdAt).format("h:mm a");
     var template = jQuery("#location_message_template").html();
@@ -27,12 +47,7 @@ socket.on("newLocationMessage",function(newLocationMessage) {
         createdAt : formattedTime
     });
     jQuery("#messages").append(html);
-    // var li = jQuery("<li></li>");
-    // var a = jQuery("<a target='_blank'>My current location</a>");
-    // li.text(`${newLocationMessage.from} ${formattedTime} : `);
-    // a.attr("href",newLocationMessage.url);
-    // li.append(a);
-    // jQuery("#messages").append(li);
+    scrollToBottom();
 });
 
 jQuery("#message-form").on("submit", function(e) {
