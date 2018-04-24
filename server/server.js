@@ -11,14 +11,18 @@ var app = express();
 var server = http.createServer(app);
 var io = socketIO(server);
 
-    //socket.emit()   --  single connection & possible for multiple tabs
-    //socket.broadcast.emit()   --  Sends to all others except to itself
-    //io.emit() --  Multiple connections. Emits to itself also.
+    //io.emit() --  Emits to itself and to all other opened multiple connetions also
+    //A socket is assigned to each opened connection by io.on("connection")
+    //socket.emit()   --  single connection. Emits to itself to which socket is assigned.
+    //When two tabs are opened. Then here, it means that for one connection, 2 sockets are opened. Then
+        //both sockets listen to the same server.
+    //socket.broadcast.emit()   --  Sends to all other connected sockets except to itself
+    //socket.join() --  
 
 app.use(express.static(publicPath));
 io.on("connection",(socket)=>{
     console.log("New user connected");
-    socket.emit("newMessage",generateMessage("Admin","Welcome to Chat-App"));    
+    socket.emit("newMessage",generateMessage("Admin","Welcome to Chat-App"));
     socket.broadcast.emit("newMessage",generateMessage("Admin","New user joined"));
     socket.on("createMessage",(createdMessage, callback)=>{
         console.log("Created Message:",createdMessage);
@@ -26,13 +30,10 @@ io.on("connection",(socket)=>{
         callback();
     });
     socket.on("join",(params, callback)=>{
-        console.log(!isRealString(params.name));
-        console.log(!isRealString(params.room));
         if(!isRealString(params.name) || !isRealString(params.room)) {
-            console.log("Invalid");
             callback("Name and Room are required");
         }
-        console.log("Valid");
+        //socket.join(params.room);
         callback();
     })
     socket.on("createLocationMessage",(coords)=>{
