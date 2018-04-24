@@ -5,21 +5,27 @@ var socket = io();
 function scrollToBottom() {
     var messages = jQuery("#messages");
     var newMessage = messages.children("li:last-child");
+
     var clientHeight = messages.prop("clientHeight");
-    console.log("clientHeight==",clientHeight);
     var scrollTop = messages.prop("scrollTop");
     var scrollHeight = messages.prop("scrollHeight");
     var newMessageHeight = newMessage.innerHeight();
     var lastMessageHeight = newMessage.prev().innerHeight();
-    console.log("lastMessageHeight==",lastMessageHeight);
-    console.log("Total Height==",(clientHeight + scrollTop + newMessageHeight + lastMessageHeight) );
-    console.log("scrollHeight==",scrollHeight);
+    
     if(clientHeight + scrollTop + newMessageHeight + lastMessageHeight  >= scrollHeight)
         messages.scrollTop(scrollHeight);
 };
 
 socket.on("connect",function() {
     console.log("Connected to Server..");
+    var params = jQuery.deparam(window.location.search);
+    socket.emit("join", params, function(err) {
+        if(err){
+            alert(err)
+            window.location.href = "/";
+        } else
+            console.log("No Error");
+    });
 });
 
 socket.on("disconnect",function() {
