@@ -31,9 +31,14 @@ io.on("connection",(socket)=>{
     console.log("New user connected");
 
     socket.on("join",(params, callback)=>{
-        if(!isRealString(params.name) || !isRealString(params.room)) {
+        var usersList = users.getUsersList(params.room);
+        var userPresence = usersList.indexOf(params.name);
+
+        if(userPresence != -1)
+            return callback(`${params.name} is already connected`);
+        if(!isRealString(params.name) || !isRealString(params.room))
             return callback("Name and Room are required");
-        }
+
         socket.join(params.room);
         // Just to remove any user having a socketId stopping to join another room, we first remove him forcefully and then add to the new room
         users.removeUser(socket.id);
@@ -59,9 +64,10 @@ io.on("connection",(socket)=>{
     });
     socket.on("disconnect",()=>{
         var user = users.removeUser(socket.id);
-
-        io.emit("updateUserList", users.getUsersList(user.room));
-        io.emit("newMessage", generateMessage("Admin", `${user.name} has left`));
+        if(user){
+            io.emit("updateUserList", users.getUsersList(user.room));
+            io.emit("newMessage", generateMessage("Admin", `${user.name} has left`));
+        }
         console.log("User disconnected");
     });
 });

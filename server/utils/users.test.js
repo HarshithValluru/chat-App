@@ -56,4 +56,8 @@ describe("Users",()=>{
         expect(userList).toEqual(["Harshith"]);
     });
 
+    it("Should return all Room Names",()=>{
+        var roomsList = users.getRoomsList(users.users);
+        console.log("roomsList==",roomsList);
+    });
 });
