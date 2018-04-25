@@ -28,8 +28,15 @@ socket.on("connect",function() {
     });
 });
 
-socket.on("disconnect",function() {
-    console.log("Disconnected from the Server..");
+socket.on("updateUserList", function(users) {
+    jQuery("#users").html("");
+    users.forEach((user) => {
+        var template = jQuery("#users_template").html();
+        var html = Mustache.render(template, {
+            user : user
+        });
+        jQuery("#users").append(html);
+    });
 });
 
 socket.on("newMessage",function(newMessage) {
@@ -84,4 +91,8 @@ locButton.on("click",function() {
         locButton.removeAttr("disabled").text("Send location");
         alert("Unable to fetch location..");
     });
+});
+
+socket.on("disconnect",function() {
+    console.log("Disconnected from the Server..");
 });
