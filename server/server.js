@@ -3,7 +3,7 @@ const http = require("http");
 const express = require("express");
 const socketIO = require("socket.io");
 
-const {generateMessage, generateLocationMessage} = require("./utils/message");
+const {generateMessage, generateLocationMessage, capitalizeRoomName} = require("./utils/message");
 const {isRealString} = require("./utils/validation");
 const {Users} = require("./utils/users");
 
@@ -27,10 +27,18 @@ var users = new Users();
         //room except to itself
 
 app.use(express.static(publicPath));
+
+app.get('/retrieve',function (req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.send(users.getRoomsList(users.users));
+});
+
 io.on("connection",(socket)=>{
     console.log("New user connected");
 
     socket.on("join",(params, callback)=>{
+        params.room = capitalizeRoomName(params.room);
+
         var usersList = users.getUsersList(params.room);
         var userPresence = usersList.indexOf(params.name);
 
@@ -64,7 +72,7 @@ io.on("connection",(socket)=>{
     });
     socket.on("disconnect",()=>{
         var user = users.removeUser(socket.id);
-        if(user){
+        if(user) {
             io.to(user.room).emit("updateUserList", users.getUsersList(user.room));
             io.to(user.room).emit("newMessage", generateMessage("Admin", `${user.name} has left`));
         }

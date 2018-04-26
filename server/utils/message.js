@@ -14,4 +14,11 @@ var generateLocationMessage = function(from, latitude, longitude){
         createdAt : moment().valueOf()
     }
 };
-module.exports = {generateMessage, generateLocationMessage}
+var capitalizeRoomName = function(roomName) {
+    var splitRoomWords = roomName.toLowerCase().split(" ");
+    for(var i=0;i<splitRoomWords.length;i++) 
+        splitRoomWords[i] = splitRoomWords[i].charAt(0).toUpperCase() + splitRoomWords[i].substr(1);
+    splitRoomWords = splitRoomWords.join(" ")
+    return splitRoomWords;
+};
+module.exports = {generateMessage, generateLocationMessage, capitalizeRoomName}

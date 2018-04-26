@@ -17,6 +17,10 @@ describe("Users",()=>{
             id : 3,
             name : "Valluru",
             room : "Node Course"
+        },{
+            id : 4,
+            name : "Krishna",
+            room : "Express Course"
         }]
     });
 
@@ -29,12 +33,12 @@ describe("Users",()=>{
     it("Should remove a user",()=>{
         var user = users.removeUser(1);
         expect(user.id).toBe(1);
-        expect(users.users.length).toBe(2);
+        expect(users.users.length).toBe(3);
     });
     it("Should not remove a user",()=>{
         var user = users.removeUser(5);
         expect(user).not.toBeTruthy();
-        expect(users.users.length).toBe(3);
+        expect(users.users.length).toBe(4);
     });
 
     it("Should find user",()=>{
@@ -42,7 +46,7 @@ describe("Users",()=>{
         expect(user.id).toBe(1);
     });
     it("Should not find user",()=>{
-        var user = users.getUser(4);
+        var user = users.getUser(99);
         expect(user).not.toBeTruthy();
     });
 

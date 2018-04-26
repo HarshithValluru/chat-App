@@ -19,7 +19,11 @@ function scrollToBottom() {
 socket.on("connect",function() {
     console.log("Connected to Server..");
     var params = jQuery.deparam(window.location.search);
-    params.room = params.room.toLowerCase();
+    console.log(params);
+    if(params.availRooms === "None")
+        params.room = params.newRoom;
+    else
+        params.room = params.availRooms;
     socket.emit("join", params, function(err) {
         if(err){
             alert(err)

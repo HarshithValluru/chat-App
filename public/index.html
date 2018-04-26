@@ -1,30 +1,37 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="chat-app">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"></meta>
         <title>Join | ChatApp</title>
         <link rel="stylesheet" href="./css/style.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+        <script src="./js/libs/jquery-3.3.1.min.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="/js/index.js"></script>
     </head>
-    <body class="centered-form">
+    <body class="centered-form" ng-controller="chat-controller">
         <div class="centered-form__form">
             <form action="./chat.html">
                 <div class="form-field"><h3>Join a Chat</h3></div>
                 <div class="form-field">
                     <label>Display name</label>
-                    <input type="text" name="name" autofocus/>
+                    <input type="text" name="name" autofocus placeholder="Enter your name"/>
                 </div>
                 <div class="form-field">
-                    <label>New Room name</label>
-                    <input type="text" name="room"/>
+                    <label>New room name</label>
+                    <input type="text" id="roomId" name="newRoom" placeholder="Enter a room to chat" 
+                        ng-change="roomInputChanged()" ng-model="roomValue"/>
+                         <!-- autocomplete="off"/> -->
                 </div>
-                <!-- <div class="form-field">
-                    <label>Available Room names</label>
-                    <select name="aRooms">
-                        <option>1</option>
-                        <option>2</option>
+                <div class="form-field">
+                    <label>Available room names</label>
+                    <select id="selectId" name="availRooms" ng-change="selectInputChanged()" 
+                        ng-model="selectValue">
+                        <option value="None">--None--</option>
+                        <option ng-repeat="room in roomsList" value="{{room}}">{{room}}</option>
                     </select>
-                </div> -->
+                </div>
                 <div class="form-field">
                     <button>Join</button>
                 </div>
