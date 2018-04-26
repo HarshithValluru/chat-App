@@ -23,8 +23,11 @@ class Users {
         return namesArray;
     }
     getRoomsList(allUsers) {
-        var roomsArray = allUsers.map((user) => user.room);
-        console.log("roomsArray==",roomsArray);
+        var allRooms = allUsers.map((user) => user.room);
+        var roomsArray = [];
+        for(var i=0;i<allRooms.length;i++)
+            if(roomsArray.indexOf(allRooms[i]) === -1) 
+                roomsArray.push(allRooms[i]);
         return roomsArray;
     }
 }
