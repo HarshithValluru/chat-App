@@ -19,7 +19,6 @@ function scrollToBottom() {
 socket.on("connect",function() {
     console.log("Connected to Server..");
     var params = jQuery.deparam(window.location.search);
-    console.log(params);
     if(params.availRooms === "None")
         params.room = params.newRoom;
     else
@@ -28,8 +27,7 @@ socket.on("connect",function() {
         if(err){
             alert(err)
             window.location.href = "/";
-        } else
-            console.log("No Error");
+        }
     });
 });
 
