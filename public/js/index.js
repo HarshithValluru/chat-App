@@ -2,6 +2,7 @@ var app = angular.module("chat-app",[]);
 app.controller("chat-controller",function($scope, $http) {
     $scope.selectValue = "None";
     $http.get('https://chat-with-harshi.herokuapp.com/retrieve')
+    //$http.get('http://localhost:3000/retrieve')
 		.then(function(response){
             $scope.roomsList = response.data;
 		},function(error) {
@@ -10,7 +11,7 @@ app.controller("chat-controller",function($scope, $http) {
 
     $scope.roomInputChanged = function() {
         if($scope.roomValue !== "")
-            $("#selectId").val("None");
+            $scope.selectValue = "None";
         else
             $("#selectId").val($scope.selectValue);
         console.log("Select Value in roomIp==",$scope.selectValue);
