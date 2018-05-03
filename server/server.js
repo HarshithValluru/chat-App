@@ -45,7 +45,7 @@ io.on("connection",(socket)=>{
         if(userPresence != -1)
             return callback(`${params.name} is already connected`);
         if(!isRealString(params.name) || !isRealString(params.room))
-            return callback("Name and Room are required");
+            return callback("Name and either of the rooms are required");
 
         socket.join(params.room);
         // Just to remove any user having a socketId stopping to join another room, we first remove him forcefully and then add to the new room
