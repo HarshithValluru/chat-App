@@ -70,6 +70,7 @@ socket.on("newLocationMessage",function(newLocationMessage) {
 jQuery("#message-form").on("submit", function(e) {
     e.preventDefault();
     var msgTxtBox = jQuery("[name=message]");
+    console.log(msgTxtBox.val());
     socket.emit("createMessage",{
         //from : "Harshith",
         text : msgTxtBox.val()

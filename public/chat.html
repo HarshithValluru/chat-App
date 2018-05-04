@@ -4,9 +4,10 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"></meta>
         <title>Chat | ChatApp</title>
-        <link rel="stylesheet" href="./css/style.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="./css/emoji.css">
+        <link rel="stylesheet" href="./css/style.css">
         <link rel="shortcut icon" href="./img/favicon.png">
     </head>
     <body class="chat">
@@ -20,11 +21,15 @@
             <ol id="messages" class="chat__messages"></ol>
             <div class="chat__footer">
                 <form id="message-form">
-                    <input type="text" name="message" placeholder="Message" autofocus autocomplete="off"
-                        data-emojiable="true"/>
-                    <button>Send</button>
-                </form><br>
-                <button id="send-location">Send location</button><br><hr>
+                    <div class="emoji-picker-container">
+                        <input type="text" name="message" placeholder="Message" class="form-control inpText"
+                            autofocus autocomplete="off" data-emojiable="true" />
+                    </div>
+                    <div><button>Send</button></div>
+                </form>
+                <div>
+                    <button id="send-location">Send location</button>
+                </div>
             </div>
         </div>
         <script id="users_template" type="text/template">
