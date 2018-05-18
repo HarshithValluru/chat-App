@@ -20,13 +20,20 @@
   h4 {
     font-size: 1.1rem;
   }
-
+  .h4 {
+    font-size: 1.1rem;
+    font-weight: 800;
+    margin-right: 10px;
+    color: black !important;
+  }
   #loggedUser, #loggedUser-style {
     text-align: right;
     padding-right: 50px;
     font-size: 16px; 
   }
-  
+  #loggedUser {
+    font-weight: 800;
+  }
   button {
     border: none;
     background: #265f82;
@@ -166,11 +173,20 @@
     list-style-type: none;
     padding: 10px;
   }
-  
   .message {
     padding: 10px;
   }
-  
+  .user_message {
+    padding: 15px;
+  }
+  .message__user {
+    display: inline-flex !important;
+    margin-bottom: 5px;
+    float:right;
+  }
+  .message__user span {
+    color: #999;
+  }
   .message__title {
     display: flex;
     margin-bottom: 5px;

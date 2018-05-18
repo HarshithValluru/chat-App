@@ -1,6 +1,7 @@
 //Since Arrow functions may not wrk properly in browsers other than Chrome i.e: Client side.
 //They can be used at server side.
 var socket = io();
+var loggedUser;
 
 function scrollToBottom() {
     var messages = jQuery("#messages");
@@ -11,14 +12,15 @@ function scrollToBottom() {
     var scrollHeight = messages.prop("scrollHeight");
     var newMessageHeight = newMessage.innerHeight();
     var lastMessageHeight = newMessage.prev().innerHeight();
-    
+
     if(clientHeight + scrollTop + newMessageHeight + lastMessageHeight  >= scrollHeight)
-        messages.scrollTop(scrollHeight);
+        messages.scrollTop(200);
 };
 
 socket.on("connect",function() {
     console.log("Connected to Server..");
     var params = jQuery.deparam(window.location.search);
+    loggedUser = params.name;
     document.getElementById("loggedUser").innerHTML=params.name;
     if(params.availRooms === "None")
         params.room = params.newRoom;
@@ -45,8 +47,12 @@ socket.on("updateUserList", function(users) {
 
 socket.on("newMessage",function(newMessage) {
     var formattedTime = moment(newMessage.createdAt).format("h:mm a");
-    var template = jQuery("#message_template").html();
-    var html = Mustache.render(template,{
+    var template;
+    if(newMessage.from==loggedUser)
+        template = jQuery("#message_template_user").html();
+    else
+        template = jQuery("#message_template").html();    
+    var html = Mustache.render(template, {
         text : newMessage.text,
         from : newMessage.from,
         createdAt : formattedTime
@@ -57,7 +63,11 @@ socket.on("newMessage",function(newMessage) {
 
 socket.on("newLocationMessage",function(newLocationMessage) {
     var formattedTime = moment(newLocationMessage.createdAt).format("h:mm a");
-    var template = jQuery("#location_message_template").html();
+    var template;
+    if(newLocationMessage.from==loggedUser)
+        template = jQuery("#location_message_template_user").html();
+    else
+        template = jQuery("#location_message_template").html();
     var html = Mustache.render(template, {
         from : newLocationMessage.from,
         url : newLocationMessage.url,
@@ -70,7 +80,6 @@ socket.on("newLocationMessage",function(newLocationMessage) {
 jQuery("#message-form").on("submit", function(e) {
     e.preventDefault();
     var msgTxtBox = jQuery("[name=message]");
-    console.log(msgTxtBox.val());
     socket.emit("createMessage",{
         //from : "Harshith",
         text : msgTxtBox.val()
