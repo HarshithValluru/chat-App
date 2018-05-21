@@ -14,7 +14,7 @@ function scrollToBottom() {
     var lastMessageHeight = newMessage.prev().innerHeight();
 
     if(clientHeight + scrollTop + newMessageHeight + lastMessageHeight  >= scrollHeight)
-        messages.scrollTop(200);
+        messages.scrollTop(scrollHeight);
 };
 
 socket.on("connect",function() {
@@ -46,12 +46,21 @@ socket.on("updateUserList", function(users) {
 });
 
 socket.on("newMessage",function(newMessage) {
+    userName = sessionStorage.getItem('userName');
     var formattedTime = moment(newMessage.createdAt).format("h:mm a");
     var template;
-    if(newMessage.from==loggedUser)
+    if(newMessage.from === loggedUser) {
+        sessionStorage.setItem("userName", newMessage.from);
         template = jQuery("#message_template_user").html();
-    else
-        template = jQuery("#message_template").html();    
+    }
+    else {
+        if(userName === newMessage.from) 
+            template = jQuery("#message_template_same_nonUser").html();
+        else {
+            sessionStorage.setItem("userName", newMessage.from);
+            template = jQuery("#message_template").html();
+        }
+    }
     var html = Mustache.render(template, {
         text : newMessage.text,
         from : newMessage.from,
@@ -108,6 +117,7 @@ locButton.on("click",function() {
 });
 
 socket.on("disconnect",function() {
+    sessionStorage.removeItem("userName");
     console.log("Disconnected from the Server..");
 });
 //$(function() {

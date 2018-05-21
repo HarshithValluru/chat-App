@@ -174,24 +174,41 @@
     padding: 10px;
   }
   .message {
-    padding: 10px;
+    padding: 6px;
+  }
+  .nonUser_Message {
+    padding: 6px;
+    padding-top: 0px;
   }
   .user_message {
-    padding: 15px;
+    padding: 10px;
+    line-height: 5px;
+    text-align: right;
   }
+  .message__nonUser {
+    display: inline-flex !important;
+  }
+  .message__nonUser div {
+    margin-right: 10px;
+  }
+  .message__nonUser span {
+    color: #999;
+  }
+
   .message__user {
     display: inline-flex !important;
-    margin-bottom: 5px;
-    float:right;
+  }
+  .message__user div {
+    margin-right: 10px;
   }
   .message__user span {
     color: #999;
   }
+
   .message__title {
     display: flex;
     margin-bottom: 5px;
   }
-  
   .message__title h4 {
     font-weight: 800;
     margin-right: 10px;
@@ -200,7 +217,7 @@
   .message__title span {
     color: #999;
   }
-  
+
   @media (max-width: 600px) {
     * {
       font-size: 1rem;
