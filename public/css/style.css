@@ -16,10 +16,6 @@
     text-align: center;
     font-size: 1.5rem;
   }
-
-  h4 {
-    font-size: 1.1rem;
-  }
   .h4 {
     font-size: 1.1rem;
     font-weight: 800;
@@ -165,10 +161,10 @@
     padding: 10px;
     flex-grow: 1;
   }
-  .inpText {
+  /* .inpText {
     border: none;
     width: auto;
-  }
+  } */
   .chat__messages {
     list-style-type: none;
     padding: 10px;
@@ -185,17 +181,21 @@
     line-height: 5px;
     text-align: right;
   }
-  .message__nonUser {
+  .message__nonUser, .message__user {
     display: inline-flex !important;
   }
-  .message__nonUser div {
+  .message__title div, .message__nonUser div, .message__user div {
     margin-right: 10px;
+    max-width:  40rem;
+    line-height: 22px;
+    word-wrap: break-word;
   }
-  .message__nonUser span {
+  .message__title span, .message__nonUser span, .message__user span {
+    line-height: 22px;
     color: #999;
   }
 
-  .message__user {
+  /* .message__user {
     display: inline-flex !important;
   }
   .message__user div {
@@ -203,20 +203,22 @@
   }
   .message__user span {
     color: #999;
-  }
+  } */
 
   .message__title {
     display: flex;
-    margin-bottom: 5px;
   }
   .message__title h4 {
+    font-size: 1.1rem;
     font-weight: 800;
     margin-right: 10px;
   }
-  
+  /* .message__title div {
+    margin-right: 10px;
+  }
   .message__title span {
     color: #999;
-  }
+  } */
 
   @media (max-width: 600px) {
     * {

@@ -19,6 +19,7 @@ function scrollToBottom() {
 
 socket.on("connect",function() {
     console.log("Connected to Server..");
+    sessionStorage.clear();
     var params = jQuery.deparam(window.location.search);
     loggedUser = params.name;
     document.getElementById("loggedUser").innerHTML=params.name;
@@ -46,18 +47,18 @@ socket.on("updateUserList", function(users) {
 });
 
 socket.on("newMessage",function(newMessage) {
-    userName = sessionStorage.getItem('userName');
+    msgdUser = sessionStorage.getItem('msgdUser');
     var formattedTime = moment(newMessage.createdAt).format("h:mm a");
     var template;
     if(newMessage.from === loggedUser) {
-        sessionStorage.setItem("userName", newMessage.from);
+        sessionStorage.setItem("msgdUser", newMessage.from);
         template = jQuery("#message_template_user").html();
     }
     else {
-        if(userName === newMessage.from) 
+        if(msgdUser === newMessage.from)
             template = jQuery("#message_template_same_nonUser").html();
         else {
-            sessionStorage.setItem("userName", newMessage.from);
+            sessionStorage.setItem("msgdUser", newMessage.from);
             template = jQuery("#message_template").html();
         }
     }
@@ -71,12 +72,21 @@ socket.on("newMessage",function(newMessage) {
 });
 
 socket.on("newLocationMessage",function(newLocationMessage) {
+    msgdUser = sessionStorage.getItem('msgdUser');
     var formattedTime = moment(newLocationMessage.createdAt).format("h:mm a");
     var template;
-    if(newLocationMessage.from==loggedUser)
+    if(newLocationMessage.from === loggedUser){
+        sessionStorage.setItem("msgdUser", newLocationMessage.from);
         template = jQuery("#location_message_template_user").html();
-    else
-        template = jQuery("#location_message_template").html();
+    }
+    else {
+        if(msgdUser === newLocationMessage.from)
+            template = jQuery("#location_message_template_same_nonUser").html();
+        else {
+            sessionStorage.setItem("msgdUser", newLocationMessage.from);
+            template = jQuery("#location_message_template").html();
+        }
+    }
     var html = Mustache.render(template, {
         from : newLocationMessage.from,
         url : newLocationMessage.url,
@@ -117,9 +127,9 @@ locButton.on("click",function() {
 });
 
 socket.on("disconnect",function() {
-    sessionStorage.removeItem("userName");
     console.log("Disconnected from the Server..");
 });
+
 //$(function() {
   // Initializes and creates emoji set from sprite sheet
   window.emojiPicker = new EmojiPicker({
