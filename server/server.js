@@ -11,7 +11,7 @@ const publicPath = path.join(__dirname,"./../public");
 const port = process.env.PORT || 3001;
 var app = express();
 var server = http.createServer(app);
-var io = socketIO(server);
+var io = socketIO.listen(server);
 var users = new Users();
 
     //io.emit() --  Emits to itself and to all other opened multiple connetions also
@@ -76,6 +76,8 @@ io.on("connection",(socket)=>{
         }
         console.log("User disconnected");
     });
+}, (err) => {
+    console.log(err);
 });
 
 server.listen(port, ()=>{

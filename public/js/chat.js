@@ -1,9 +1,10 @@
 //Since Arrow functions may not wrk properly in browsers other than Chrome i.e: Client side.
 //They can be used at server side.
-var socket = io();
+
+// const io = require("socket.io-client");
+const socket = io("http://localhost:3001");
+
 var loggedUser;
-
-
 
 function scrollToBottom() {
     var messages = jQuery("#messages");
@@ -131,7 +132,8 @@ locButton.on("click",function() {
 
 var btn_logout = jQuery("#btn_logout");
 btn_logout.on("click",function() {
-    window.location.href = "/";
+    // window.location.href = "/";
+    window.location.href = window.location.href.replace(/chat.html.*/, "index.html");
 });
 
 socket.on("disconnect",function() {
@@ -141,13 +143,13 @@ socket.on("disconnect",function() {
 // In-Progress. Kept on hold.
 //$(function() {
   // Initializes and creates emoji set from sprite sheet
-  window.emojiPicker = new EmojiPicker({
-    emojiable_selector: '[data-emojiable=true]',
-    assetsPath: './../img/',
-    popupButtonClasses: 'fa fa-smile-o'
-  });
+//   window.emojiPicker = new EmojiPicker({
+//     emojiable_selector: '[data-emojiable=true]',
+//     assetsPath: './../img/',
+//     popupButtonClasses: 'fa fa-smile-o'
+//   });
   // Finds all elements with `emojiable_selector` and converts them to rich emoji input fields
   // You may want to delay this step if you have dynamically created input fields that appear later in the loading process
   // It can be called as many times as necessary; previously converted input fields will not be converted again
-  window.emojiPicker.discover();
+//   window.emojiPicker.discover();
 //});
