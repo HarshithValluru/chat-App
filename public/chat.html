@@ -12,12 +12,19 @@
     </head>
     <body class="chat">
         <div class="chat__sidebar">
-            <h3>People</h3>
+            <h3>Users</h3>
             <ol id="users"></ol>
         </div>
         <div class="chat__main"><br>
             <h3>Conversations</h3>
-            <h4 id="loggedUser-style">Logged in as: <em><u><span id="loggedUser"></span></u></em></h4>
+            <div>
+                <h5 id="loggedRoom-style">Room Name: <em><u><span id="loggedRoom"></span></u></em></h5>
+                <h5 id="loggedUser-style">Logged in as: 
+                    <em><u><span id="loggedUser"></span></u></em>
+                    <!-- <img href="/img/logout_img.png" alt="Logout" /> -->
+                    <button id="btn_logout">Logout</button>
+                </h5>
+            </div>
             <ol id="messages" class="chat__messages"></ol>
             <div class="chat__footer">
                 <form id="message-form">

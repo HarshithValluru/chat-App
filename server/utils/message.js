@@ -1,3 +1,4 @@
+// import moment from "moment";
 const moment = require("moment");
 
 var generateMessage = function(from, text) {
@@ -13,12 +14,13 @@ var generateLocationMessage = function(from, latitude, longitude){
         url : `https://www.google.com/maps/?q=${latitude},${longitude}`,
         createdAt : moment().valueOf()
     }
-};
+}
 var capitalizeRoomName = function(roomName) {
-    var splitRoomWords = roomName.toLowerCase().split(" ");
-    for(var i=0;i<splitRoomWords.length;i++) 
-        splitRoomWords[i] = splitRoomWords[i].charAt(0).toUpperCase() + splitRoomWords[i].substr(1);
-    splitRoomWords = splitRoomWords.join(" ")
-    return splitRoomWords;
-};
+    var splitRoomWordsArr = roomName.toLowerCase().split(" ");
+    for(var i=0;i<splitRoomWordsArr.length;i++) 
+    splitRoomWordsArr[i] = splitRoomWordsArr[i].charAt(0).toUpperCase() + splitRoomWordsArr[i].substr(1);
+    return splitRoomWordsArr.join(" ");
+}
+
+// export default {generateMessage, generateLocationMessage, capitalizeRoomName}
 module.exports = {generateMessage, generateLocationMessage, capitalizeRoomName}

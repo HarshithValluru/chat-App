@@ -8,7 +8,7 @@ const {isRealString} = require("./utils/validation");
 const {Users} = require("./utils/users");
 
 const publicPath = path.join(__dirname,"./../public");
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 var app = express();
 var server = http.createServer(app);
 var io = socketIO(server);
@@ -35,7 +35,6 @@ app.get('/retrieve',function (req, res, next) {
 
 io.on("connection",(socket)=>{
     console.log("New user connected");
-
     socket.on("join",(params, callback)=>{
         params.room = capitalizeRoomName(params.room);
 
@@ -78,6 +77,7 @@ io.on("connection",(socket)=>{
         console.log("User disconnected");
     });
 });
+
 server.listen(port, ()=>{
     console.log(`Server is up on port ${port}`);
 });

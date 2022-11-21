@@ -3,6 +3,8 @@
 var socket = io();
 var loggedUser;
 
+
+
 function scrollToBottom() {
     var messages = jQuery("#messages");
     var newMessage = messages.children("li:last-child");
@@ -22,11 +24,12 @@ socket.on("connect",function() {
     sessionStorage.clear();
     var params = jQuery.deparam(window.location.search);
     loggedUser = params.name;
-    document.getElementById("loggedUser").innerHTML=params.name;
     if(params.availRooms === "None")
         params.room = params.newRoom;
     else
         params.room = params.availRooms;
+    document.getElementById("loggedUser").innerHTML=params.name;
+    document.getElementById("loggedRoom").innerHTML=params.room;
     socket.emit("join", params, function(err) {
         if(err){
             alert(err)
@@ -126,10 +129,16 @@ locButton.on("click",function() {
     });
 });
 
+var btn_logout = jQuery("#btn_logout");
+btn_logout.on("click",function() {
+    window.location.href = "/";
+});
+
 socket.on("disconnect",function() {
     console.log("Disconnected from the Server..");
 });
 
+// In-Progress. Kept on hold.
 //$(function() {
   // Initializes and creates emoji set from sprite sheet
   window.emojiPicker = new EmojiPicker({
